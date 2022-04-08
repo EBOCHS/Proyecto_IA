@@ -38,19 +38,19 @@
             <div class="nav-lateral-divider full-reset"></div>
             <div class="full-reset nav-lateral-list-menu">
                 <ul class="list-unstyled">
-                    <li><a href='{{url_for("index")}}'><i class="zmdi zmdi-home zmdi-hc-fw"></i>&nbsp;&nbsp; Inicio</a></li>
+                    <li><a href='{{url_for("dash")}}'><i class="zmdi zmdi-home zmdi-hc-fw"></i>&nbsp;&nbsp; Inicio</a></li>
                    
                     <li>
                         <div class="dropdown-menu-button"><i class="zmdi zmdi-account-add zmdi-hc-fw"></i>&nbsp;&nbsp; Registro de usuarios <i class="zmdi zmdi-chevron-down pull-right zmdi-hc-fw icon-sub-menu"></i></div>
                         <ul class="list-unstyled">
-                            <li><a href='{{url_for("index")}}'><i class="zmdi zmdi-face zmdi-hc-fw"></i>&nbsp;&nbsp; Nuevo administrador</a></li>
-                            <li><a href='{{url_for("index")}}'><i class="zmdi zmdi-male-alt zmdi-hc-fw"></i>&nbsp;&nbsp; Nuevo usuario</a></li>
+                            <li><a href='{{url_for("create")}}'><i class="zmdi zmdi-face zmdi-hc-fw"></i>&nbsp;&nbsp; Agregar Usuarios</a></li>
+                            <li><a href='{{url_for("list")}}'><i class="zmdi zmdi-male-alt zmdi-hc-fw"></i>&nbsp;&nbsp;Ver Registro de Usuarios</a></li>
 
                         </ul>
                     </li>
                   
-                    <li><a href='{{url_for("index")}}'><i class="zmdi zmdi-trending-up zmdi-hc-fw"></i>&nbsp;&nbsp; Reportes y estadísticas</a></li>
-                    <li><a href='{{url_for("index")}}'><i class="zmdi zmdi-wrench zmdi-hc-fw"></i>&nbsp;&nbsp; Configuraciones avanzadas</a></li>
+                    <li><a href='{{url_for("dash")}}'><i class="zmdi zmdi-trending-up zmdi-hc-fw"></i>&nbsp;&nbsp; Reportes y estadísticas</a></li>
+                    <li><a href='{{url_for("dash")}}'><i class="zmdi zmdi-wrench zmdi-hc-fw"></i>&nbsp;&nbsp; Configuraciones avanzadas</a></li>
                 </ul>
             </div>
         </div>
@@ -62,12 +62,12 @@
                    <img src="/static/assets/img/user01.png" alt="user-picture" class="img-responsive img-circle center-box">
                 </figure>
                 <li style="color:#fff; cursor:default;">
-                    <span class="all-tittles">Josue Bor</span>
+                    <span class="all-tittles">{{username}}</span>
                 </li>
-                <li  class="tooltips-general exit-system-button" data-href="index.html" data-placement="bottom" title="Salir del sistema">
+                <li  class="tooltips-general exit-system-button" data-href="/logout" data-placement="bottom" title="Salir del sistema">
                     <i class="zmdi zmdi-power"></i>
                 </li>
-                <li  class="tooltips-general search-book-button" data-href="searchbook.html" data-placement="bottom" title="Buscar">
+                <li  class="tooltips-general search-book-button" data-href="busqueda" data-placement="bottom" title="Buscar">
                     <i class="zmdi zmdi-search"></i>
                 </li>
                 <li  class="tooltips-general btn-help" data-placement="bottom" title="Ayuda">
@@ -94,7 +94,8 @@
             </article>
             <article class="tile">
                 <div class="tile-icon full-reset"><i class="zmdi zmdi-accounts"></i></div>
-                <div class="tile-name all-tittles">usuarios</div>
+               
+                <a href='{{url_for("create")}}' class="tile-name all-tittles">usuarios</a>
                 <div class="tile-num full-reset">05</div>
             </article>
     
@@ -162,6 +163,7 @@
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     
     <script>window.jQuery || document.write('<script src="/static/js/jquery-1.11.2.min.js"><\/script>')</script>
+    <script src="/static/js/sweet-alert.min.js"></script>
     <script src="/static/js/modernizr.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/jquery.mCustomScrollbar.concat.min.js"></script>

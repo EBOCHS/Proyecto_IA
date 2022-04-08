@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="Shortcut Icon" type="image/x-icon" href="/static/assets/icons/book.ico" />
+    <!-- Bootstrap CSS -->
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/sweet-alert.css">
+    <link rel="stylesheet" href="/static/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="/static/css/normalize.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/jquery.mCustomScrollbar.css">
+
+
+
+
+    <title>{% block title %} IA{% endblock %}</title>
+  </head>
+  <body>
+    <div class="navbar-lateral full-reset">
+        <div class="visible-xs font-movile-menu mobile-menu-button"></div>
+        <div class="full-reset container-menu-movile nav-lateral-scroll">
+            <div class="logo full-reset all-tittles">
+                <i class="visible-xs zmdi zmdi-close pull-left mobile-menu-button" style="line-height: 55px; cursor: pointer; padding: 0 10px; margin-left: 7px;"></i> 
+                 PROYECTO IA GRUPO dos
+            </div>
+            <div class="nav-lateral-divider full-reset"></div>
+            <div class="full-reset" style="padding: 10px 0; color:#fff;">
+                <figure>
+                    <img src="/static/img/frutas.ico" alt="Biblioteca" class="img-responsive center-box" style="width:50%;">
+                </figure>
+                <p class="text-center" style="padding-top: 15px;">Clasificador de fruta inteligente</p>
+            </div>
+            <div class="nav-lateral-divider full-reset"></div>
+            <div class="full-reset nav-lateral-list-menu">
+                <ul class="list-unstyled">
+                    <li><a href='{{url_for("dash")}}'><i class="zmdi zmdi-home zmdi-hc-fw"></i>&nbsp;&nbsp; Inicio</a></li>
+                   
+                    <li>
+                        <div class="dropdown-menu-button"><i class="zmdi zmdi-account-add zmdi-hc-fw"></i>&nbsp;&nbsp; Registro de usuarios <i class="zmdi zmdi-chevron-down pull-right zmdi-hc-fw icon-sub-menu"></i></div>
+                        <ul class="list-unstyled">
+                            <li><a href='{{url_for("create")}}'><i class="zmdi zmdi-face zmdi-hc-fw"></i>&nbsp;&nbsp; Agregar Usuarios</a></li>
+                            <li><a href='{{url_for("list")}}'><i class="zmdi zmdi-male-alt zmdi-hc-fw"></i>&nbsp;&nbsp;Ver Registro de Usuarios</a></li>
+
+                        </ul>
+                    </li>
+                  
+                    <li><a href='{{url_for("dash")}}'><i class="zmdi zmdi-trending-up zmdi-hc-fw"></i>&nbsp;&nbsp; Reportes y estadísticas</a></li>
+                    <li><a href='{{url_for("dash")}}'><i class="zmdi zmdi-wrench zmdi-hc-fw"></i>&nbsp;&nbsp; Configuraciones avanzadas</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="content-page-container full-reset custom-scroll-containers">
+        <nav class="navbar-user-top full-reset">
+            <ul class="list-unstyled full-reset">
+                <figure>
+                   <img src="/static/assets/img/user01.png" alt="user-picture" class="img-responsive img-circle center-box">
+                </figure>
+                <li style="color:#fff; cursor:default;">
+                    <span class="all-tittles">{{username}}</span>
+                </li>
+                <li  class="tooltips-general exit-system-button" data-href="/logout" data-placement="bottom" title="Salir del sistema">
+                    <i class="zmdi zmdi-power"></i>
+                </li>
+                <li  class="tooltips-general search-book-button" data-href="busqueda" data-placement="bottom" title="Buscar">
+                    <i class="zmdi zmdi-search"></i>
+                </li>
+                <li  class="tooltips-general btn-help" data-placement="bottom" title="Ayuda">
+                    <i class="zmdi zmdi-help-outline zmdi-hc-fw"></i>
+                </li>
+                <li class="mobile-menu-button visible-xs" style="float: left !important;">
+                    <i class="zmdi zmdi-menu"></i>
+                </li>
+                <li class="desktop-menu-button hidden-xs" style="float: left !important;">
+                    <i class="zmdi zmdi-swap"></i>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="container">
+          <div class="page-header">
+            <h1 class="all-tittles">Sistema selector de frutas <small>Administración Usuarios</small></h1>
+          </div>
+      </div>
+      <div class="container-fluid">
+          <ul class="nav nav-tabs nav-justified"  style="font-size: 17px;">
+              
+              <li role="presentation"><a href='{{url_for("create")}}'>Usuarios</a></li>
+              <li role="presentation"  class="active"><a href='{{url_for("list")}}'>Registros</a></li>
+          </ul>
+      </div>
+      <div class="container-fluid"  style="margin: 50px 0;">
+        <div class="row">
+            <div class="col-xs-12 col-sm-4 col-md-3">
+                <img src="/static/assets/img/user01.png" alt="user" class="img-responsive center-box" style="max-width: 110px;">
+            </div>
+            <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
+                Bienvenido a la sección donde se encuentra el listado de los Usuarios del sistema, puedes desactivar la cuenta de cualquier usuario o eliminar los datos si lo consideras necesario
+            </div>
+        </div>
+    </div>
+     
+      <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 lead">
+                <ol class="breadcrumb">
+                    <li><a href='{{url_for("create")}}'>Nuevo Usuario</a></li>
+                    <li class="active">listado de Usuarios</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <h2 class="text-center all-tittles">Lista de Usuarios</h2>
+        <div class="div-table">
+            <div class="div-table-row div-table-head">
+                <div class="div-table-cell">#</div>
+                <div class="div-table-cell">Nombre</div>
+                <div class="div-table-cell">Nombre de usuario</div>
+                <div class="div-table-cell">Email</div>
+                <div class="div-table-cell">Estado</div>
+                <div class="div-table-cell">Fotografía</div>
+                <div class="div-table-cell">Actualizar</div>
+                <div class="div-table-cell">Eliminar</div>
+            </div>  
+            <div class="div-table-row">
+                <div class="div-table-cell">#</div>
+                <div class="div-table-cell">Nombre</div>
+                <div class="div-table-cell">Nombre de usuario</div>
+                <div class="div-table-cell">Email</div>
+                <div class="div-table-cell">Estado</div>
+                <div class="div-table-cell">
+                    
+                        <img src="/static/assets/img/user01.png" alt="user-picture" height="70%">
+                    
+                </div>
+                <div class="div-table-cell">
+                    <button class="btn btn-success"><i class="zmdi zmdi-refresh"></i></button>
+                </div>
+                <div class="div-table-cell">
+                    <button class="btn btn-danger"><i class="zmdi zmdi-delete"></i></button>
+                </div>
+            </div>
+            
+         
+           
+           
+        </div>                  
+    </div>
+        <div class="modal fade" tabindex="-1" role="dialog" id="ModalHelp">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center all-tittles">ayuda del sistema</h4>
+                </div>
+                <div class="modal-body">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore dignissimos qui molestias ipsum officiis unde aliquid consequatur, accusamus delectus asperiores sunt. Quibusdam veniam ipsa accusamus error. Animi mollitia corporis iusto.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="zmdi zmdi-thumb-up"></i> &nbsp; De acuerdo</button>
+                </div>
+            </div>
+          </div>
+        </div>
+        <footer class="footer full-reset">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <h4 class="all-tittles">Acerca del proyecto</h4>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam quam dicta et, ipsum quo. Est saepe deserunt, adipisci eos id cum, ducimus rem, dolores enim laudantium eum repudiandae temporibus sapiente.
+                        </p>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <h4 class="all-tittles">Desarrollador</h4>
+                        <ul class="list-unstyled">
+                            <li><i class="zmdi zmdi-check zmdi-hc-fw"></i>&nbsp; Josue Bor - Erick Boch - Javier Gómez<i class="zmdi zmdi-facebook zmdi-hc-fw footer-social"></i><i class="zmdi zmdi-twitter zmdi-hc-fw footer-social"></i></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright full-reset all-tittles">© 2022 UMG-Inteligencia Artificial</div>
+        </footer>
+    </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    
+    <script>window.jQuery || document.write('<script src="/static/js/jquery-1.11.2.min.js"><\/script>')</script>
+    <script src="/static/js/sweet-alert.min.js"></script>
+    <script src="/static/js/modernizr.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="/static/js/main.js"></script>
+  </body>
+</html>
+
+
+

@@ -55,8 +55,8 @@ $(document).ready(function(){
         e.preventDefault();
         var LinkSearchBook=$(this).attr("data-href");
         swal({
-           title: "¿Qué libro estás buscando?",
-           text: "Por favor escribe el nombre del libro",
+           title: "¿Qué estás buscando?",
+           text: "Por favor escribelo",
            type: "input",   
            showCancelButton: true,
            closeOnConfirm: false,
@@ -64,12 +64,12 @@ $(document).ready(function(){
            cancelButtonText: "Cancelar",
            confirmButtonText: "Buscar",
            confirmButtonColor: "#3598D9",
-           inputPlaceholder: "Escribe aquí el nombre de libro" }, 
+           inputPlaceholder: "Escribe aquí tu busqueda" }, 
       function(inputValue){
            if (inputValue === false) return false;  
 
            if (inputValue === "") {
-               swal.showInputError("Debes escribir el nombre del libro");     
+               swal.showInputError("Debes escribir lo que buscas");     
                return false;   
            } 
             window.location=LinkSearchBook+"?bookName="+inputValue;
