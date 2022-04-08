@@ -34,6 +34,10 @@ def create():
 def list():
     return render_template('empleados/list.html');
 
+#ruta para activar la camara del sistema
+@app.route('/camara')
+def camara():
+    return render_template('empleados/camara');
 
 #metodo para validad los datos de entrada del login
 @app.route('/ingresar', methods=['POST', 'GET'])
