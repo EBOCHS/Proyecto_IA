@@ -129,28 +129,24 @@
                 <div class="div-table-cell">Actualizar</div>
                 <div class="div-table-cell">Eliminar</div>
             </div>  
+            {% for empleado in empleados %}
             <div class="div-table-row">
                 <div class="div-table-cell">#</div>
-                <div class="div-table-cell">Nombre</div>
-                <div class="div-table-cell">Nombre de usuario</div>
-                <div class="div-table-cell">Email</div>
-                <div class="div-table-cell">Estado</div>
+                <div class="div-table-cell">{{empleado[1]}}</div>
+                <div class="div-table-cell">{{empleado[4]}}</div>
+                <div class="div-table-cell">{{empleado[2]}}</div>
+                <div class="div-table-cell">{{empleado[6]}}</div>
                 <div class="div-table-cell">
-                    
                         <img src="/static/assets/img/user01.png" alt="user-picture" height="70%">
-                    
                 </div>
                 <div class="div-table-cell">
-                    <button class="btn btn-success"><i class="zmdi zmdi-refresh"></i></button>
+                    <a href="/edit/{{empleado[0]}}"><i class="zmdi zmdi-refresh"></i></a>
                 </div>
                 <div class="div-table-cell">
                     <button class="btn btn-danger"><i class="zmdi zmdi-delete"></i></button>
                 </div>
             </div>
-            
-         
-           
-           
+            {% endfor %}
         </div>                  
     </div>
         <div class="modal fade" tabindex="-1" role="dialog" id="ModalHelp">

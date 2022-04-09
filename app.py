@@ -32,7 +32,14 @@ def create():
 #ruta para renderizar la vista lista empleados
 @app.route('/list')
 def list():
-    return render_template('empleados/list.html');
+    sql = "SELECT * FROM `empleado`;"
+    conn = mysql.connect();
+    Cursor = conn.cursor();
+    Cursor.execute(sql);
+    empleados = Cursor.fetchall();
+    print(empleados);
+    conn.commit();
+    return render_template('empleados/list.html', empleados=empleados );
 
 #ruta para activar la camara del sistema
 @app.route('/camara')
@@ -59,7 +66,7 @@ def ingresar():
             msg = '¡Contraseña/Usuario Incorrecto, Intente de Nuevo!'
     return render_template('login/login.html', msg=msg )
 
-#metodo para 
+#metodo para ?
 @app.route('/logout')
 def logout():
     session.pop('loggedin',None)
@@ -92,17 +99,39 @@ def storage():
     return render_template('empleados/index.html')
 
 # funcion para Actualizar un usuario    
-
 @app.route('/edit/<int:id>')
 def editarEmpleado(id):
     conn = mysql.connect();
     Cursor = conn.cursor();
-    Cursor.execute("SELECT * FROM EMPLEADOS WHERE id=%s",(id));
+    Cursor.execute("SELECT * FROM EMPLEADO WHERE id_emp=%s",(id));
     empleado = Cursor.fetchall();
     print(empleado);
+    
     return render_template('empleados/edit.html',empleado=empleado);
 
-
+#metodo para confirmar la edicion de un numero
+@app.route('/edit', methods=['POST'])
+def editarEmpleados():
+    _id = request.form['txtId'];
+    nombre = request.form['txtNombre'];
+    correo= request.form['txtCorreo'];
+    foto = request.files['txtFoto'];
+    user_name = request.form['txtUserName'];
+    contrasenia= request.form['password'];
+    estado = request.form['txtEstado'];
+    now = datetime.now();
+    tiempo = now.strftime("%Y%H%M%S");
+    if foto.filename!= '':
+        nuevoNombreF=tiempo+foto.filename
+        foto.save("uploads/"+nuevoNombreF); 
+    
+    sql = "UPDATE EMPLEADO SET nombre=%s, correo=%s , foto=%s , user_name=%s, contrasenia=%s,estado=%s  where id_emp=%s"
+    datos = (nombre,correo,nuevoNombreF,user_name,contrasenia,estado ,_id);
+    conn = mysql.connect();
+    Cursor = conn.cursor();
+    Cursor.execute(sql,datos);
+    conn.commit();
+    return redirect('/list');
 
 
 if '__main__':
