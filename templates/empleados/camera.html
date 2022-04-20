@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="Shortcut Icon" type="image/x-icon" href="/static/assets/icons/book.ico" />
     <!-- Bootstrap CSS -->
-    
+   
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/sweet-alert.css">
@@ -83,43 +83,17 @@
         </nav>
         <div class="container">
             <div class="page-header">
-              <h1 class="all-tittles">Sistema selector de frutas <small>Inicio</small></h1>
+              <h1 class="all-tittles">Sistema selector de frutas <small>Camara</small></h1>
             </div>
         </div>
         <section class="full-reset text-center" style="padding: 40px 0;">
-            <article class="tile">
-                <div class="tile-icon full-reset"><i class="zmdi zmdi-face"></i></div>
-                <div class="tile-name all-tittles">administradores</div>
-                <div class="tile-num full-reset">2</div>
-            </article>
-            <article class="tile">
-                <div class="tile-icon full-reset"><i class="zmdi zmdi-accounts"></i></div>
-               
-                <a href='{{url_for("create")}}' class="tile-name all-tittles">usuarios</a>
-                <div class="tile-num full-reset">05</div>
-            </article>
-    
-            <article class="tile">
-                <div class="tile-icon full-reset"><i class="zmdi zmdi-bookmark-outline"></i></div>
-                <div class="tile-name all-tittles">categorías</div>
-                <div class="tile-num full-reset">11</div>
-            </article>
+            
            
-            <article class="tile">
-                <div class="tile-icon full-reset"><i class="zmdi zmdi-trending-up"></i></div>
-                <div class="tile-name all-tittles" style="width: 90%;">reportes y estadísticas</div>
-                <div class="tile-num full-reset">&nbsp;</div>
-            </article>
-            <article class="tile">
-                <div class="tile-icon full-reset"><i class="zmdi zmdi-trending-up"></i></div>
-                <div class="tile-name all-tittles" style="width: 90%;">reportes y estadísticas</div>
-                <div class="tile-num full-reset">&nbsp;</div>
-            </article>
-            <article class="tile">
-                <div class="tile-icon full-reset"><i class="zmdi zmdi-camera-bw"></i></div>
-                <a href='{{url_for("camera")}}' class="tile-name all-tittles">Camara del sistema</a>
-                <div class="tile-num full-reset">&nbsp;</div>
-            </article>
+            <img src="{{url_for('reconocimiento')}}" alt="" style="width: 90%;">
+           
+       
+          
+            
         </section>
         <div class="modal fade" tabindex="-1" role="dialog" id="ModalHelp">
           <div class="modal-dialog modal-lg">

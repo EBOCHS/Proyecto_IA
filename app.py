@@ -1,11 +1,17 @@
 
 from flask import Flask, redirect, session, url_for
 from flask import render_template, request
+from flask import Response
 from flaskext.mysql import MySQL
 from datetime import datetime
-
+import cv2 
 
 app = Flask(__name__)
+#importacion de la data para el reconocimiento facial
+cap =cv2.VideoCapture(1,cv2.CAP_DSHOW)
+face_detector =cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+
+
 app.secret_key="proyecto python"
 mysql = MySQL()
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
@@ -42,9 +48,9 @@ def list():
     return render_template('empleados/list.html', empleados=empleados );
 
 #ruta para activar la camara del sistema
-@app.route('/camara')
-def camara():
-    return render_template('empleados/camara');
+@app.route('/camera')
+def camera():
+    return render_template('empleados/camera.html')
 
 #metodo para validad los datos de entrada del login
 @app.route('/ingresar', methods=['POST', 'GET'])
@@ -66,7 +72,7 @@ def ingresar():
             msg = '¡Contraseña/Usuario Incorrecto, Intente de Nuevo!'
     return render_template('login/login.html', msg=msg )
 
-#metodo para ?
+#metodo para cerrar sesion
 @app.route('/logout')
 def logout():
     session.pop('loggedin',None)
@@ -133,6 +139,31 @@ def editarEmpleados():
     conn.commit();
     return redirect('/list');
 
+#funcion para generar la estrucutra del reconocimiento facial
+def generate():
+    while True:
+        ret, frame = cap.read()
+        if ret:
+            gray=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
+            faces=face_detector.detectMultiScale(gray,1.3, 5)
+            for(x,y,w,h) in faces:
+                cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
+            (flag,encodedImage)=cv2.imencode(".jpg",frame)
+            if not flag:
+                continue
+            yield(b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n'+bytearray(encodedImage)+b'\r\n')
+
+           
+#ruta para iniciar la ventana de la camara con reconocimiento
+@app.route('/reconocimiento')
+def reconocimiento():
+   return Response(generate(),mimetype="multipart/x-mixed-replace; boundary=frame")
+ # enlace para instalar open cv https://pypi.org/project/opencv-contrib-python/
+
 
 if '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
+
+
+cap.release()
+  
