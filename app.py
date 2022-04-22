@@ -8,8 +8,8 @@ import cv2
 
 app = Flask(__name__)
 #importacion de la data para el reconocimiento facial
-cap =cv2.VideoCapture(1,cv2.CAP_DSHOW)
-face_detector =cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+cap =cv2.VideoCapture(0,cv2.CAP_DSHOW)
+face_detector =cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
 
 app.secret_key="proyecto python"
@@ -38,7 +38,7 @@ def create():
 #ruta para renderizar la vista lista empleados
 @app.route('/list')
 def list():
-    sql = "SELECT * FROM `empleado`;"
+    sql = "SELECT * FROM `empleado` where estado='A';"
     conn = mysql.connect();
     Cursor = conn.cursor();
     Cursor.execute(sql);
@@ -56,7 +56,6 @@ def camera():
 @app.route('/ingresar', methods=['POST', 'GET'])
 def ingresar():
     msg = ''
-
     if request.method == 'POST':
         user = request.form['txtUsuario']
         password = request.form['txtPass']
@@ -88,8 +87,7 @@ def storage():
     foto = request.files['txtFoto'];
     user_name = request.form['txtUserName'];
     password = request.form['password'];
-    estado = 'activo';
-
+    estado = 'A';
     now = datetime.now();
     tiempo = now.strftime("%Y%H%M%S");
     if foto.filename!= '':
@@ -114,6 +112,15 @@ def editarEmpleado(id):
     print(empleado);
     
     return render_template('empleados/edit.html',empleado=empleado);
+#funcion para eliminar un usuario
+@app.route("/delete/<int:id>")
+def eliminarUsuario(id):
+    conn = mysql.connect();
+    Cursor = conn.cursor();
+    Cursor.execute("UPDATE empleado SET estado ='I' WHERE id_emp=%s",(id));
+    empleado = Cursor.fetchall();
+    conn.commit();
+    return redirect('/list');
 
 #metodo para confirmar la edicion de un numero
 @app.route('/edit', methods=['POST'])
@@ -129,8 +136,7 @@ def editarEmpleados():
     tiempo = now.strftime("%Y%H%M%S");
     if foto.filename!= '':
         nuevoNombreF=tiempo+foto.filename
-        foto.save("uploads/"+nuevoNombreF); 
-    
+        foto.save("uploads/"+nuevoNombreF);  
     sql = "UPDATE EMPLEADO SET nombre=%s, correo=%s , foto=%s , user_name=%s, contrasenia=%s,estado=%s  where id_emp=%s"
     datos = (nombre,correo,nuevoNombreF,user_name,contrasenia,estado ,_id);
     conn = mysql.connect();
