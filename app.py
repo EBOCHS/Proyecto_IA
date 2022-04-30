@@ -1,5 +1,6 @@
 
-from flask import Flask, redirect, session, url_for
+from tkinter.tix import Tree
+from flask import Flask, redirect, session, url_for,flash
 from flask import render_template, request
 from flask import Response
 from flaskext.mysql import MySQL
@@ -39,7 +40,7 @@ def create():
 #ruta para renderizar la vista lista empleados
 @app.route('/list')
 def list():
-    sql = "SELECT * FROM `empleado`;"
+    sql = "SELECT * FROM `empleado` where estado='A';"
     conn = mysql.connect();
     Cursor = conn.cursor();
     Cursor.execute(sql);
@@ -56,8 +57,7 @@ def camera():
 #metodo para validad los datos de entrada del login
 @app.route('/ingresar', methods=['POST', 'GET'])
 def ingresar():
-    msg = ''
-
+   
     if request.method == 'POST':
         user = request.form['txtUsuario']
         password = request.form['txtPass']
@@ -70,8 +70,8 @@ def ingresar():
             session['username'] = record[1]
             return redirect(url_for('dash'))
         else:
-            msg = '¡Contraseña/Usuario Incorrecto, Intente de Nuevo!'
-    return render_template('login/login.html', msg=msg )
+            flash('!Error. Usuario o contraseña incorrectos')
+    return render_template('login/login.html')
 
 #metodo para cerrar sesion
 @app.route('/logout')
@@ -89,8 +89,7 @@ def storage():
     foto = request.files['txtFoto'];
     user_name = request.form['txtUserName'];
     password = request.form['password'];
-    estado = 'activo';
-
+    estado = 'A';
     now = datetime.now();
     tiempo = now.strftime("%Y%H%M%S");
     if foto.filename!= '':
@@ -103,6 +102,7 @@ def storage():
     Cursor = conn.cursor()
     Cursor.execute(sql,datos)
     conn.commit()
+    flash('!Error. Usuario o contraseña incorrectos')
     return render_template('empleados/index.html')
 
 # funcion para Actualizar un usuario    
@@ -113,12 +113,20 @@ def editarEmpleado(id):
     Cursor.execute("SELECT * FROM EMPLEADO WHERE id_emp=%s",(id));
     empleado = Cursor.fetchall();
     print(empleado);
-    
     return render_template('empleados/edit.html',empleado=empleado);
+#funcion para eliminar un usuario
+@app.route("/delete/<int:id>")
+def eliminarUsuario(id):
+    conn = mysql.connect();
+    Cursor = conn.cursor();
+    Cursor.execute("UPDATE empleado SET estado ='I' WHERE id_emp=%s",(id));
+    empleado = Cursor.fetchall();
+    conn.commit();
+    return redirect('/list');
 
 #metodo para confirmar la edicion de un numero
 @app.route('/edit', methods=['POST'])
-def editarEmpleados():
+def editarEmpleados(): 
     _id = request.form['txtId'];
     nombre = request.form['txtNombre'];
     correo= request.form['txtCorreo'];
@@ -130,14 +138,14 @@ def editarEmpleados():
     tiempo = now.strftime("%Y%H%M%S");
     if foto.filename!= '':
         nuevoNombreF=tiempo+foto.filename
-        foto.save("uploads/"+nuevoNombreF); 
-    
+        foto.save("uploads/"+nuevoNombreF);  
     sql = "UPDATE EMPLEADO SET nombre=%s, correo=%s , foto=%s , user_name=%s, contrasenia=%s,estado=%s  where id_emp=%s"
     datos = (nombre,correo,nuevoNombreF,user_name,contrasenia,estado ,_id);
     conn = mysql.connect();
     Cursor = conn.cursor();
     Cursor.execute(sql,datos);
     conn.commit();
+    flash('!Error. Usuario o contraseña incorrectos');
     return redirect('/list');
 
 #funcion para generar la estrucutra del reconocimiento facial
@@ -165,10 +173,7 @@ def reconocimiento():
    return Response(generate(),mimetype="multipart/x-mixed-replace; boundary=frame")
  # enlace para instalar open cv https://pypi.org/project/opencv-contrib-python/
 
-
 if '__main__':
     app.run(debug=False)
-
-
 cap.release()
   

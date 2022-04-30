@@ -51,6 +51,25 @@ $(document).ready(function(){
             window.location=LinkExitSystem; 
         });  
     });
+    $('.eliminar-usuario').on('click',function(e){
+        e.preventDefault();
+        var LinkExitSystem=$(this).attr("data-href");
+        swal({
+            title: "¿Estás seguro De Eliminar El Usuario?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#FF0000",
+            confirmButtonText: "Si, Eliminar",
+            cancelButtonColor:"#008000",
+            cancelButtonText: "No, cancelar",
+            animation: "slide-from-top",
+            closeOnConfirm: false 
+        },function(){
+            window.location=LinkExitSystem; 
+        });
+    })
+   
+
     $('.search-book-button').click(function(e){
         e.preventDefault();
         var LinkSearchBook=$(this).attr("data-href");
