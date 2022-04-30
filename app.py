@@ -9,8 +9,9 @@ import cv2
 
 app = Flask(__name__)
 #importacion de la data para el reconocimiento facial
-cap =cv2.VideoCapture(0,cv2.CAP_DSHOW)
-face_detector =cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+cap =cv2.VideoCapture(2,cv2.CAP_DSHOW)
+#haarcascade_frontalface_defaul.xml
+naranja=cv2.CascadeClassifier('cascade.xml')
 
 
 app.secret_key="proyecto python"
@@ -153,9 +154,13 @@ def generate():
         ret, frame = cap.read()
         if ret:
             gray=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
-            faces=face_detector.detectMultiScale(gray,1.3, 5)
-            for(x,y,w,h) in faces:
+            #faces=face_detector.detectMultiScale(gray,scaleFactor=8,minNeighbors=100,minSize=(80,80))
+            objeto=naranja.detectMultiScale(gray,scaleFactor=8,minNeighbors=150,minSize=(90,90))
+            
+            for(x,y,w,h) in objeto:
+                contador=contador+1
                 cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
+                cv2.putText(frame,'Naranja'+str(contador),(x,y-10),2,0.7,(0,255,0),2,cv2.LINE_AA)
             (flag,encodedImage)=cv2.imencode(".jpg",frame)
             if not flag:
                 continue
