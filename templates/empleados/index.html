@@ -17,8 +17,9 @@
 
 
 
-
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>{% block title %} IA{% endblock %}</title>
+ 
   </head>
   <body>
     <div class="navbar-lateral full-reset">
@@ -153,7 +154,7 @@
         </footer>
     </div>
 
-
+     
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     
@@ -163,5 +164,18 @@
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/jquery.mCustomScrollbar.concat.min.js"></script>
     <script src="/static/js/main.js"></script>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Usuario Creado Corectamente',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        </script>
+    {% endif %}
+    {% endwith %} 
   </body>
 </html>
