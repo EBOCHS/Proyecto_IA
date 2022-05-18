@@ -14,12 +14,11 @@
     <link rel="stylesheet" href="/static/css/normalize.css">
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/jquery.mCustomScrollbar.css">
-
-
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <title>{% block title %} IA{% endblock %}</title>
- 
   </head>
   <body>
     <div class="navbar-lateral full-reset">
@@ -42,7 +41,7 @@
                     <li><a href='{{url_for("dash")}}'><i class="zmdi zmdi-home zmdi-hc-fw"></i>&nbsp;&nbsp; Inicio</a></li>
                    
                     <li>
-                        <div class="dropdown-menu-button"><i class="zmdi zmdi-account-add zmdi-hc-fw"></i>&nbsp;&nbsp; Registro de usuarios <i class="zmdi zmdi-chevron-down pull-right zmdi-hc-fw icon-sub-menu"></i></div>
+                        <div class="dropdown-menu-button"><i class="zmdi zmdi-account-add zmdi-hc-fw"></i>&nbsp;&nbsp; Registro de usuarios<i class="zmdi zmdi-chevron-down pull-right zmdi-hc-fw icon-sub-menu"></i></div>
                         <ul class="list-unstyled">
                             <li><a href='{{url_for("create")}}'><i class="zmdi zmdi-face zmdi-hc-fw"></i>&nbsp;&nbsp; Agregar Usuarios</a></li>
                             <li><a href='{{url_for("list")}}'><i class="zmdi zmdi-male-alt zmdi-hc-fw"></i>&nbsp;&nbsp;Ver Registro de Usuarios</a></li>
@@ -82,41 +81,53 @@
                 </li>
             </ul>
         </nav>
+
         <div class="container">
-            <div class="page-header">
-              <h1 class="all-tittles">Sistema selector de frutas <small>Inicio</small></h1>
+          <div class="page-header">
+            <h1 class="all-tittles">Sistema selector de frutas <small>Reporte de Fruta Clasificada</small></h1>
+          </div>
+      </div>
+      <div class="container-fluid">
+          <ul class="nav nav-tabs nav-justified"  style="font-size: 17px;">
+              <li role="presentation"  class="active"><a href='{{url_for("reports")}}'>Registros</a></li>
+          </ul>
+      </div>
+      <div class="container-fluid"  style="margin: 30px 0;">
+        <div class="row">
+            <div class="col-xs-12 col-sm-4 col-md-3">
+                <img src="/static/assets/img/user01.png" alt="user" class="img-responsive center-box" style="max-width: 110px;">
+            </div>
+            <div class="col-xs-12 col-sm-8 col-md-8 text-justify lead">
+                Bienvenido a la sección donde se encuentra el registro de frutas clasificadas, puedes descargar los datos si lo consideras necesario
             </div>
         </div>
-        <section class="full-reset text-center" style="padding: 40px 0;">
-            <article class="tile">
-                <div class="tile-icon full-reset"><i class="zmdi zmdi-face"></i></div>
-                <div class="tile-name all-tittles">administradores</div>
-                <div class="tile-num full-reset">2</div>
-            </article>
-            <article class="tile">
-                <div class="tile-icon full-reset"><i class="zmdi zmdi-accounts"></i></div>
-               
-                <a href='{{url_for("create")}}' class="tile-name all-tittles">usuarios</a>
-                <div class="tile-num full-reset">05</div>
-            </article>
-    
-            <article class="tile">
-                <div class="tile-icon full-reset"><i class="zmdi zmdi-bookmark-outline"></i></div>
-                <div class="tile-name all-tittles">categorías</div>
-                <div class="tile-num full-reset">11</div>
-            </article>
-           
-            <article class="tile">
-                <div class="tile-icon full-reset"><i class="zmdi zmdi-trending-up"></i></div>
-                <a href='{{url_for("reports")}}' class="tile-name all-tittles">reportes y estadísticas</a>
-                <div class="tile-num full-reset">&nbsp;</div>
-            </article>
-            <article class="tile">
-                <div class="tile-icon full-reset"><i class="zmdi zmdi-camera-bw"></i></div>
-                <a href='{{url_for("camera")}}' class="tile-name all-tittles">Camara del sistema</a>
-                <div class="tile-num full-reset">&nbsp;</div>
-            </article>
-        </section>
+    </div>
+     
+    <div class="container-fluid">
+        <h2 class="text-center all-tittles">Lista de Frutas</h2>
+        <div class="div-table">
+            <div class="div-table-row div-table-head">
+                <div class="div-table-cell">#</div>
+                <div class="div-table-cell">Fruta</div>
+                <div class="div-table-cell">Estado</div>
+                <div class="div-table-cell">% Aceptacion</div>
+                <div class="div-table-cell">Fecha</div>
+                <div class="div-table-cell">Hora</div>
+            </div>  
+            
+            <div class="div-table-row">
+                <div class="div-table-cell">01</div>
+                <div class="div-table-cell">Naranja</div>
+                <div class="div-table-cell">Bueno</div>
+                <div class="div-table-cell">0.67</div>
+                <div class="div-table-cell">03-10-2022</div>
+                <div class="div-table-cell">12:06:58</div>
+            </div>
+        </div>    
+        
+            <a class="btn-success btn-lg" data-href="#"><i class="zmdi zmdi-download"></i> Descargar</a>
+                
+    </div>
         <div class="modal fade" tabindex="-1" role="dialog" id="ModalHelp">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -154,7 +165,7 @@
         </footer>
     </div>
 
-     
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     
@@ -170,7 +181,7 @@
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'Usuario Creado Corectamente',
+                title: 'Usuario Actualizado Correctamente.',
                 showConfirmButton: false,
                 timer: 1500
             })
@@ -179,3 +190,6 @@
     {% endwith %} 
   </body>
 </html>
+
+
+
