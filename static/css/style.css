@@ -563,6 +563,17 @@ input.material-control:focus ~ .highlight {
     transform: scale(1.5);
     color: #303F9F;
 }
+/* ============= Estilos camara ============= */
+
+/* #video{
+    position: absolute !important;
+    z-index: 50;
+    right: 80px !important;
+    top: 300px !important;
+} */
+
+
+
 /* ============= Estilos report ============= */
 .report-content{
     padding: 30px 0;
