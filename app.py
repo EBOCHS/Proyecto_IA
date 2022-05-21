@@ -28,7 +28,7 @@ mysql.init_app(app)
 led=0
 mot=0
 
-serialArduino = serial.Serial("COM6",9600) 
+#serialArduino = serial.Serial("COM6",9600) 
 
 
 @app.route('/dashboard')
@@ -231,40 +231,7 @@ def generate():
 def reconocimiento():
    return Response(generate(),mimetype="multipart/x-mixed-replace; boundary=frame")
 
-#Funcion que servira para ingresar reportes a base de datos
-@app.route('/newRepos',methods=['POST'])
-def func():
-    fecha = datetime.today().strftime('%Y/%m/%d');
-    hora = datetime.today().strftime('%H:%M:%S');
-    numRandom = number;
-    estado = '';
-    descripcion='naranjas';
-    for numero in range(1):
-        numRandom = random.randint(1, 2);
-    if(numRandom == 1):
-        estado = 'buena';
-    elif(numRandom == 2):
-        estado = 'mala';
 
-    sql = "INSERT INTO `reporte` (`id_reporte`, `fecha`,`hora`, `estado`,`descripcion`) VALUES (NULL, %s,%s, %s,%s);";
-    datos = (fecha,hora,estado,descripcion)
-    conn = mysql.connect()
-    Cursor = conn.cursor()
-    Cursor.execute(sql,datos)
-    conn.commit()
-    return  redirect('/repo');
-
-#funcion para renderizar la vista de reportes
-@app.route("/re")
-def reportes():
-    sql = "SELECT * FROM `reporte`;"
-    conn = mysql.connect();
-    Cursor = conn.cursor();
-    Cursor.execute(sql);
-    reporte = Cursor.fetchall();
-    print(reporte);
-    conn.commit();
-    return render_template('/empleados/reportes.html',  );
  # enlace para instalar open cv https://pypi.org/project/opencv-contrib-python/
 
 if '__main__':
