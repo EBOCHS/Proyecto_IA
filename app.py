@@ -41,7 +41,14 @@ def create():
 #ruta para lsitar los reportes de frutas
 @app.route('/reports')
 def reports():
-    return render_template('reportes/reportes.html');
+    sql = "SELECT * FROM `reporte`;"
+    conn = mysql.connect();
+    Cursor = conn.cursor();
+    Cursor.execute(sql);
+    reporte = Cursor.fetchall();
+    print(reporte);
+    conn.commit();
+    return render_template('reportes/reportes.html',reporte = reporte);
 
     
 #ruta para renderizar la vista lista empleados
@@ -200,12 +207,19 @@ def func():
     Cursor = conn.cursor()
     Cursor.execute(sql,datos)
     conn.commit()
-    return  redirect('/reporte');
+    return  redirect('/repo');
 
 #funcion para renderizar la vista de reportes
-@app.route("/reporte")
+@app.route("/re")
 def reportes():
-    return render_template('/empleados/reportes.html');
+    sql = "SELECT * FROM `reporte`;"
+    conn = mysql.connect();
+    Cursor = conn.cursor();
+    Cursor.execute(sql);
+    reporte = Cursor.fetchall();
+    print(reporte);
+    conn.commit();
+    return render_template('/empleados/reportes.html',  );
  # enlace para instalar open cv https://pypi.org/project/opencv-contrib-python/
 
 if '__main__':
