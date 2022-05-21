@@ -1,10 +1,12 @@
 
+import random
 from flask import Flask, redirect, session, url_for,flash
 from flask import render_template, request
 from flask import Response
 from flaskext.mysql import MySQL
 from datetime import datetime
-import cv2 
+import cv2
+from numpy import number 
 
 app = Flask(__name__)
 #importacion de la data para el reconocimiento facial
@@ -170,9 +172,37 @@ def generate():
 @app.route('/reconocimiento')
 def reconocimiento():
    return Response(generate(),mimetype="multipart/x-mixed-replace; boundary=frame")
+
+#Funcion que servira para ingresar reportes a base de datos
+@app.route('/newRepos',methods=['POST'])
+def func():
+    fecha = datetime.today().strftime('%Y/%m/%d');
+    hora = datetime.today().strftime('%H:%M:%S');
+    numRandom = number;
+    estado = '';
+    descripcion='naranjas';
+    for numero in range(1):
+        numRandom = random.randint(1, 2);
+    if(numRandom == 1):
+        estado = 'buena';
+    elif(numRandom == 2):
+        estado = 'mala';
+
+    sql = "INSERT INTO `reporte` (`id_reporte`, `fecha`,`hora`, `estado`,`descripcion`) VALUES (NULL, %s,%s, %s,%s);";
+    datos = (fecha,hora,estado,descripcion)
+    conn = mysql.connect()
+    Cursor = conn.cursor()
+    Cursor.execute(sql,datos)
+    conn.commit()
+    return  redirect('/reporte');
+
+#funcion para renderizar la vista de reportes
+@app.route("/reporte")
+def reportes():
+    return render_template('/empleados/reportes.html');
  # enlace para instalar open cv https://pypi.org/project/opencv-contrib-python/
 
 if '__main__':
     app.run(debug=False)
-cap.release()
+    cap.release()
   
