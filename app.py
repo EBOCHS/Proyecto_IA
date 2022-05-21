@@ -1,4 +1,5 @@
 
+from errno import ESTALE
 import random
 from flask import Flask, redirect, session, url_for,flash
 from flask import render_template, request
@@ -63,14 +64,35 @@ def insert_fruta():
     est=request_data['estado']
     prob=request_data['probabilidad']
     res=est+prob
+    #datos para los reportes
+    fecha = datetime.today().strftime('%Y/%m/%d');
+    hora = datetime.today().strftime('%H:%M:%S');
+    estado = est;
+    descripcion='naranjas';
+    
     #movimiento del led cuando se detecte una naranja en mal estado
     print("Estado: "+est+" Porbabilidad: "+prob+" " );
-    
+
     if est=='Naranja_en_Mal_estado':
         led=1
         mot=180
         cad = str(led) + ","+ str(mot)
         serialArduino.write(cad.encode('ascii'))
+        print("naranja mala");
+        sql = "INSERT INTO `reporte` (`id_reporte`, `fecha`,`hora`, `estado`,`descripcion`,`porcentaje_aceptacion`) VALUES (NULL, %s,%s, %s,%s,%s);";
+        datos = (fecha,hora,estado,descripcion,prob)
+        conn = mysql.connect()
+        Cursor = conn.cursor()
+        Cursor.execute(sql,datos)
+        conn.commit()
+
+    elif est=='Naranja_en_Buen_estado':
+        sql = "INSERT INTO `reporte` (`id_reporte`, `fecha`,`hora`, `estado`,`descripcion`,`porcentaje_aceptacion`) VALUES (NULL, %s,%s, %s,%s,%s);";
+        datos = (fecha,hora,estado,descripcion,prob)
+        conn = mysql.connect()
+        Cursor = conn.cursor()
+        Cursor.execute(sql,datos)
+        conn.commit()
 
     return res+'led encendido'     
     
