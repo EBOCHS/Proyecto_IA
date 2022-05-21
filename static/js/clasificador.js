@@ -49,7 +49,12 @@ function tomaResultado(err, resultado) {
             "thick solid #00f02b";
         select("#resultado").html("Naranja en Buen Estado");
         select("#probabilidad").html(nf(resultado[0].probability, 0, 2));
-        
+        estado='Naranja_en_Buen_estado'
+        probabilidad=nf(resultado[0].probability, 0, 2);
+        axios.post('/insertar-reconocimiento-fruta',{estado:estado, probabilidad:probabilidad        
+        }).then(res=>{
+            console.log(res.data)
+        })
        
     } else if (
         resultado[0].className == "orange" &&
@@ -59,7 +64,7 @@ function tomaResultado(err, resultado) {
             "thick solid #dc143c";
         select("#resultado").html("Naranja en Mal estado");
         select("#probabilidad").html(nf(resultado[0].probability, 0, 2));
-        estado='Naranja en Mal estado'
+        estado='Naranja_en_Mal_estado'
         probabilidad=nf(resultado[0].probability, 0, 2);
         axios.post('/insertar-reconocimiento-fruta',{estado:estado, probabilidad:probabilidad        
         }).then(res=>{
