@@ -1,11 +1,12 @@
 
 from tkinter.tix import Tree
-from flask import Flask, redirect, session, url_for,flash
+from flask import Flask, jsonify, redirect, session, url_for,flash
 from flask import render_template, request
 from flask import Response
 from flaskext.mysql import MySQL
 from datetime import datetime
 import cv2 
+import serial
 
 app = Flask(__name__)
 #importacion de la data para el reconocimiento facial
@@ -21,6 +22,12 @@ app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'inteligencia_artificial'
 mysql.init_app(app)
+
+
+led=0
+mot=0
+
+serialArduino = serial.Serial("COM6",9600) 
 
 
 @app.route('/dashboard')
@@ -42,6 +49,21 @@ def create():
 def reports():
     return render_template('reportes/reportes.html');
 
+#ruta del api para insertar los registros del reconocimiento de naranjas
+@app.route('/insertar-reconocimiento-fruta',methods=['POST'])
+def insert_fruta():
+    request_data=request.get_json()
+    est=request_data['estado']
+    prob=request_data['probabilidad']
+    res=est+prob
+    #movimiento del led cuando se detecte una naranja en mal estado
+    if est=='Naranja en Mal estado':
+        led=1
+        mot=180
+        cad = str(led) + ","+ str(mot)
+        serialArduino.write(cad.encode('ascii'))
+
+    return res+'led encendido'     
     
 #ruta para renderizar la vista lista empleados
 @app.route('/list')
