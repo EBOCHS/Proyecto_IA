@@ -24,6 +24,12 @@ app.config['MYSQL_DATABASE_DB'] = 'inteligencia_artificial'
 mysql.init_app(app)
 
 
+led=0
+mot=0
+
+serialArduino = serial.Serial("COM6",9600) 
+
+
 @app.route('/dashboard')
 def dash():
     return render_template('empleados/index.html',username=session['username'])
@@ -50,6 +56,23 @@ def reports():
     conn.commit();
     return render_template('reportes/reportes.html',reporte = reporte);
 
+#ruta del api para insertar los registros del reconocimiento de naranjas
+@app.route('/insertar-reconocimiento-fruta',methods=['POST'])
+def insert_fruta():
+    request_data=request.get_json()
+    est=request_data['estado']
+    prob=request_data['probabilidad']
+    res=est+prob
+    #movimiento del led cuando se detecte una naranja en mal estado
+    print("Estado: "+est+" Porbabilidad: "+prob+" " );
+    
+    if est=='Naranja_en_Mal_estado':
+        led=1
+        mot=180
+        cad = str(led) + ","+ str(mot)
+        serialArduino.write(cad.encode('ascii'))
+
+    return res+'led encendido'     
     
 #ruta para renderizar la vista lista empleados
 @app.route('/list')
