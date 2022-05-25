@@ -18,6 +18,11 @@
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script src="https://unpkg.com/xlsx@0.16.9/dist/xlsx.full.min.js"></script>
+    <script src="https://unpkg.com/file-saverjs@latest/FileSaver.min.js"></script>
+    <script src="https://unpkg.com/tableexport@latest/dist/js/tableexport.min.js"></script>
+
+
     <title>{% block title %} IA{% endblock %}</title>
   </head>
   <body>
@@ -105,30 +110,35 @@
      
     <div class="container-fluid">
         <h2 class="text-center all-tittles">Lista de Frutas</h2>
-        <div class="div-table">
+        <div class="div-table" id="tabla">
+            <table class="table" id="tabla">
+                <thead>
+                  <tr>
+                    <th scope="col">No.</th>
+                    <th scope="col">Futas</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">% Aceptacion</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Hora</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for reporte in reporte %}
+                  <tr>
+                    <th scope="row">{{reporte[0]}}</th>
+                    <td>{{reporte[4]}}</td>
+                    <td>{{reporte[3]}}</td>
+                    <td>{{reporte[5]}}</td>
+                    <td>{{reporte[1]}}</td>
+                    <td>{{reporte[2]}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
             
-            <div class="div-table-row div-table-head">
-                <div class="div-table-cell">#</div>
-                <div class="div-table-cell">Fruta</div>
-                <div class="div-table-cell">Estado</div>
-                <div class="div-table-cell">% Aceptacion</div>
-                <div class="div-table-cell">Fecha</div>
-                <div class="div-table-cell">Hora</div>
-            </div>  
-            
-            {% for reporte in reporte %}
-            <div class="div-table-row">
-                <div class="div-table-cell">{{reporte[0]}}</div>
-                <div class="div-table-cell">{{reporte[4]}}</div>
-                <div class="div-table-cell">{{reporte[3]}}</div>
-                <div class="div-table-cell">{{reporte[5]}}</div>
-                <div class="div-table-cell">{{reporte[1]}}</div>
-                <div class="div-table-cell">{{reporte[2]}}</div>
-            </div>
-            {% endfor %}
         </div>    
         
-            <a class="btn-success btn-lg" data-href="#"><i class="zmdi zmdi-download"></i> Descargar</a>
+             <a class="btn-success btn-lg" data-href="#" id="btnExportar" style="cursor: pointer"><i class="zmdi zmdi-download"></i>Descargar</a>
                 
     </div>
         <div class="modal fade" tabindex="-1" role="dialog" id="ModalHelp">
@@ -193,6 +203,22 @@
     {% endwith %} 
   </body>
 </html>
+<script>
+    const $btnExportar = document.querySelector("#btnExportar"),
+        $tabla = document.querySelector("#tabla");
 
+    $btnExportar.addEventListener("click", function() {
+    
+        let tableExport = new TableExport($tabla, {
+            
+            //exportButtons: false, // No queremos botones
+            //filename: "Reporte "fecha.Date , //Nombre del archivo de Excel
+            //sheetname: "Reporte De Calidad De Las Naranjas", //Título de la hoja
+        });
+        //let datos = tableExport.getExportData();
+        //let preferenciasDocumento = datos.tabla.xlsx;
+        //tableExport.export2file(preferenciasDocumento.data, preferenciasDocumento.mimeType, preferenciasDocumento.filename, preferenciasDocumento.fileExtension, preferenciasDocumento.merges, preferenciasDocumento.RTL, preferenciasDocumento.sheetname);
+    });
+</script>
 
 
