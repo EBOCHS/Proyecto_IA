@@ -51,15 +51,16 @@ function tomaResultado(err, resultado) {
             "thick solid #00f02b";
         select("#resultado").html("Naranja en Buen Estado");
         select("#probabilidad").html(nf(resultado[0].probability, 0, 2));
-        estado='Naranja_en_Buen_estado'
+        estado='Naranja en Buen estado'
         probabilidad=nf(resultado[0].probability, 0, 2);
 
         axios.post('/insertar-reconocimiento-fruta',{estado:estado, probabilidad:probabilidad        
         }).then(res=>{
             console.log(res.data)
-        })
-       
-    } else if (
+        })   
+    } 
+     
+    if (
         resultado[0].className == "orange" &&
         nf(resultado[0].probability, 0, 2) < "0.60"
     ) {
@@ -67,12 +68,13 @@ function tomaResultado(err, resultado) {
             "thick solid #dc143c";
         select("#resultado").html("Naranja en Mal estado");
         select("#probabilidad").html(nf(resultado[0].probability, 0, 2));
-        estado='Naranja_en_Mal_estado'
+        estado='Naranja en Mal estado'
         probabilidad=nf(resultado[0].probability, 0, 2);
-        axios.post('/insertar-reconocimiento-fruta',{estado:estado, probabilidad:probabilidad        
-        }).then(res=>{
-            console.log(res.data)
-        })
+            axios.post('/insertar-reconocimiento-fruta',{estado:estado, probabilidad:probabilidad        
+            }).then(res=>{
+                console.log(res.data)
+            })
+            sleep(3000)
     } else {
         document.getElementById("video").style.border =
             "thick solid #1a3bd6";

@@ -1,5 +1,6 @@
 
 from errno import ESTALE
+from logging import root
 import random
 from flask import Flask, redirect, session, url_for,flash
 from flask import render_template, request
@@ -49,12 +50,12 @@ def create():
 #ruta para lsitar los reportes de frutas
 @app.route('/reports')
 def reports():
+   
     sql = "SELECT * FROM `reporte`;"
     conn = mysql.connect();
     Cursor = conn.cursor();
     Cursor.execute(sql);
     reporte = Cursor.fetchall();
-    print(reporte);
     conn.commit();
     return render_template('reportes/reportes.html',reporte = reporte);
 
@@ -69,17 +70,17 @@ def insert_fruta():
     fecha = datetime.today().strftime('%Y/%m/%d');
     hora = datetime.today().strftime('%H:%M:%S');
     estado = est;
-    descripcion='naranjas';
+    descripcion='naranja';
     
     #movimiento del led cuando se detecte una naranja en mal estado
-    print("Estado: "+est+" Porbabilidad: "+prob+" " );
+    #print("Estado: "+est+" Porbabilidad: "+prob+" " );
 
-    if est=='Naranja_en_Mal_estado':
+    if est=='Naranja en Mal estado':
         led=1
         mot=180
         cad = str(led) + ","+ str(mot)
         serialArduino.write(cad.encode('ascii'))
-      #  print("naranja mala");
+        print("naranja mala");
        # sql = "INSERT INTO `reporte` (`id_reporte`, `fecha`,`hora`, `estado`,`descripcion`,`porcentaje_aceptacion`) VALUES (NULL, %s,%s, %s,%s,%s);";
        # datos = (fecha,hora,estado,descripcion,prob)
        # conn = mysql.connect()
@@ -87,7 +88,7 @@ def insert_fruta():
         #Cursor.execute(sql,datos)
         #conn.commit()
 
-    #elif est=='Naranja_en_Buen_estado':
+    #elif est=='Naranja en Buen estado':
        # sql = "INSERT INTO `reporte` (`id_reporte`, `fecha`,`hora`, `estado`,`descripcion`,`porcentaje_aceptacion`) VALUES (NULL, %s,%s, %s,%s,%s);";
         #datos = (fecha,hora,estado,descripcion,prob)
         #conn = mysql.connect()
@@ -232,41 +233,10 @@ def generate():
 def reconocimiento():
    return Response(generate(),mimetype="multipart/x-mixed-replace; boundary=frame")
 
-#Funcion que servira para ingresar reportes a base de datos
-@app.route('/newRepos',methods=['POST'])
-def func():
-    fecha = datetime.today().strftime('%Y/%m/%d');
-    hora = datetime.today().strftime('%H:%M:%S');
-    numRandom = number;
-    estado = '';
-    descripcion='naranjas';
-    for numero in range(1):
-        numRandom = random.randint(1, 2);
-    if(numRandom == 1):
-        estado = 'buena';
-    elif(numRandom == 2):
-        estado = 'mala';
 
-    sql = "INSERT INTO `reporte` (`id_reporte`, `fecha`,`hora`, `estado`,`descripcion`) VALUES (NULL, %s,%s, %s,%s);";
-    datos = (fecha,hora,estado,descripcion)
-    conn = mysql.connect()
-    Cursor = conn.cursor()
-    Cursor.execute(sql,datos)
-    conn.commit()
-    return  redirect('/repo');
-
-#funcion para renderizar la vista de reportes
-@app.route("/re")
-def reportes():
-    sql = "SELECT * FROM `reporte`;"
-    conn = mysql.connect();
-    Cursor = conn.cursor();
-    Cursor.execute(sql);
-    reporte = Cursor.fetchall();
-    print(reporte);
-    conn.commit();
-    return render_template('/empleados/reportes.html',  );
  # enlace para instalar open cv https://pypi.org/project/opencv-contrib-python/
+ 
+
 
 if '__main__':
     app.run(debug=False)
