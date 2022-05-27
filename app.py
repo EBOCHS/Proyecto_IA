@@ -8,6 +8,7 @@ from flaskext.mysql import MySQL
 from datetime import datetime
 import cv2
 from numpy import number 
+import serial
 
 app = Flask(__name__)
 #importacion de la data para el reconocimiento facial
@@ -78,21 +79,21 @@ def insert_fruta():
         mot=180
         cad = str(led) + ","+ str(mot)
         serialArduino.write(cad.encode('ascii'))
-        print("naranja mala");
-        sql = "INSERT INTO `reporte` (`id_reporte`, `fecha`,`hora`, `estado`,`descripcion`,`porcentaje_aceptacion`) VALUES (NULL, %s,%s, %s,%s,%s);";
-        datos = (fecha,hora,estado,descripcion,prob)
-        conn = mysql.connect()
-        Cursor = conn.cursor()
-        Cursor.execute(sql,datos)
-        conn.commit()
+      #  print("naranja mala");
+       # sql = "INSERT INTO `reporte` (`id_reporte`, `fecha`,`hora`, `estado`,`descripcion`,`porcentaje_aceptacion`) VALUES (NULL, %s,%s, %s,%s,%s);";
+       # datos = (fecha,hora,estado,descripcion,prob)
+       # conn = mysql.connect()
+        #Cursor = conn.cursor()
+        #Cursor.execute(sql,datos)
+        #conn.commit()
 
-    elif est=='Naranja_en_Buen_estado':
-        sql = "INSERT INTO `reporte` (`id_reporte`, `fecha`,`hora`, `estado`,`descripcion`,`porcentaje_aceptacion`) VALUES (NULL, %s,%s, %s,%s,%s);";
-        datos = (fecha,hora,estado,descripcion,prob)
-        conn = mysql.connect()
-        Cursor = conn.cursor()
-        Cursor.execute(sql,datos)
-        conn.commit()
+    #elif est=='Naranja_en_Buen_estado':
+       # sql = "INSERT INTO `reporte` (`id_reporte`, `fecha`,`hora`, `estado`,`descripcion`,`porcentaje_aceptacion`) VALUES (NULL, %s,%s, %s,%s,%s);";
+        #datos = (fecha,hora,estado,descripcion,prob)
+        #conn = mysql.connect()
+        #Cursor = conn.cursor()
+        #Cursor.execute(sql,datos)
+        #conn.commit()
 
     return res+'led encendido'     
     

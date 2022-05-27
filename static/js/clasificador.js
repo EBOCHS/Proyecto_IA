@@ -32,6 +32,8 @@ function modeloListo() {
 function clasificarVideo() {
     clasificador.predict(tomaResultado);
 }
+
+
 // Cuando obtenemos el resultado
 function tomaResultado(err, resultado) {
     
@@ -51,6 +53,7 @@ function tomaResultado(err, resultado) {
         select("#probabilidad").html(nf(resultado[0].probability, 0, 2));
         estado='Naranja_en_Buen_estado'
         probabilidad=nf(resultado[0].probability, 0, 2);
+
         axios.post('/insertar-reconocimiento-fruta',{estado:estado, probabilidad:probabilidad        
         }).then(res=>{
             console.log(res.data)
