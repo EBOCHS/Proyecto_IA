@@ -9,6 +9,7 @@ from flaskext.mysql import MySQL
 from datetime import datetime
 import cv2
 from numpy import number 
+import time
 
 app = Flask(__name__)
 #importacion de la data para el reconocimiento facial
@@ -72,13 +73,14 @@ def insert_fruta():
     descripcion='naranja';
     
     #movimiento del led cuando se detecte una naranja en mal estado
-    print("Estado: "+est+" Porbabilidad: "+prob+" " );
+    #print("Estado: "+est+" Porbabilidad: "+prob+" " );
 
-    if est=='Naranja en Mal estado':
+    if est=='Naranja en Mal estado' and request_data != ""  :
         #led=1
         #mot=180
         #cad = str(led) + ","+ str(mot)
         #serialArduino.write(cad.encode('ascii'))
+        #time.sleep(30);
         print("naranja mala");
         sql = "INSERT INTO `reporte` (`id_reporte`, `fecha`,`hora`, `estado`,`descripcion`,`porcentaje_aceptacion`) VALUES (NULL, %s,%s, %s,%s,%s);";
         datos = (fecha,hora,estado,descripcion,prob)
@@ -86,16 +88,18 @@ def insert_fruta():
         Cursor = conn.cursor()
         Cursor.execute(sql,datos)
         conn.commit()
-
+       
+        
     elif est=='Naranja en Buen estado':
+        
         sql = "INSERT INTO `reporte` (`id_reporte`, `fecha`,`hora`, `estado`,`descripcion`,`porcentaje_aceptacion`) VALUES (NULL, %s,%s, %s,%s,%s);";
         datos = (fecha,hora,estado,descripcion,prob)
         conn = mysql.connect()
         Cursor = conn.cursor()
         Cursor.execute(sql,datos)
         conn.commit()
-        #
         
+        request_data = "";
 
     return res+'led encendido'     
     
